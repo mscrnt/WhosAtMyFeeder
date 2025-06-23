@@ -12,31 +12,19 @@
 
 {% block content %}
     <h2>Recent Detections</h2>
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Detection Time</th>
-            <th scope="col">Common Name</th>
-            <th scope="col">Confidence</th>
-            <th scope="col">Thumbnail</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3 photo-grid">
         {% for detection in recent_detections %}
-            <tr>
-                <td>{{ detection.detection_time }}</td>
-                <td>{{ detection.common_name }}</td>
-                <td>{{ '%.2f'|format(detection.score) }}</td>
-                <td>
-                    <img src="{{ url_for('frigate_thumbnail', frigate_event=detection.frigate_event) }}" alt="Thumbnail"
-     width="100" height="auto" class="thumbnail"
-     onload="checkTransparentImage(this)"
-     onclick="showSnapshot('{{ url_for('frigate_snapshot', frigate_event=detection.frigate_event) }}', '{{ url_for('frigate_clip', frigate_event=detection.frigate_event) }}')"/>
-                </td>
-            </tr>
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm position-relative">
+                <img src="{{ url_for('frigate_thumbnail', frigate_event=detection.frigate_event) }}" alt="Thumbnail" class="card-img-top thumbnail" onload="checkTransparentImage(this)" onclick="showVideoDirect('{{ url_for('frigate_clip', frigate_event=detection.frigate_event) }}')"/>
+                <span class="play-icon"><i class="fa-solid fa-circle-play"></i></span>
+                <div class="card-body p-2">
+                    <p class="card-text text-center mb-0">{{ detection.common_name }}</p>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
     <h2>Detection Summary</h2>
     <table class="table table-hover table-striped">
