@@ -8,7 +8,9 @@
             </div>
             <div class="modal-body">
                 <img id="snapshotImage" src="" alt="Snapshot" class="img-fluid mb-3"/>
-                <button type="button" class="btn btn-primary" onclick="showVideo()">View Video</button>
+                <button type="button" class="btn btn-primary" onclick="showVideo()">
+                    <i class="fa-solid fa-circle-play me-1"></i>View Video
+                </button>
             </div>
         </div>
     </div>
@@ -49,6 +51,14 @@
         videoClip.load();
         var snapshotModal = bootstrap.Modal.getInstance(document.getElementById("snapshotModal"));
         snapshotModal.hide();
+        var videoModal = new bootstrap.Modal(document.getElementById("videoModal"));
+        videoModal.show();
+    }
+
+    function showVideoDirect(clipUrl) {
+        var videoClip = document.getElementById("videoClip");
+        videoClip.src = clipUrl;
+        videoClip.load();
         var videoModal = new bootstrap.Modal(document.getElementById("videoModal"));
         videoModal.show();
     }
