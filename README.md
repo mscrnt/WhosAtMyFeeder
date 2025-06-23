@@ -117,3 +117,6 @@ http://127.0.0.1:7766 or on http://yourserveraddress:7766
 
 **Docker Image**
 The image is on Docker Hub at https://hub.docker.com/r/mmcc73/whosatmyfeeder
+This project now targets **Python 3.10**. If you build the image yourself or
+run the code directly, ensure your environment uses Python 3.10 or later.
+
