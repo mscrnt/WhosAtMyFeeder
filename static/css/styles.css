@@ -1,6 +1,6 @@
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f4f6f9;
+  background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
 }
 
 h1, h2 {
@@ -15,10 +15,37 @@ h1, h2 {
 }
 
 .table > thead {
-  background-color: #e9ecef;
+  background-color: #b0d4f1;
+  color: #ffffff;
 }
 
 .thumbnail:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+.photo-grid .card {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.photo-grid .card-body {
+  background-color: #ffffffcc;
+}
+
+.photo-grid .card-text {
+  font-size: 0.85rem;
+}
+
+.play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.8);
+  pointer-events: none;
 }
