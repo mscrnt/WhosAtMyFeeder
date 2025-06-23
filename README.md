@@ -14,6 +14,7 @@ saves the ID with the best score.
 Actually I'm populating it with the first 20 characters of the bird species common name because apparently the sub label
 field is currently limited to 20 characters
 * I also changed (improved, I hope) the UI significantly. I don't think there's any lost functionality.
+* The Web UI now uses Bootstrap 5.3 with modern fonts for a sleeker look.
 
 ![screenshot](screenshot2.jpg)
 
