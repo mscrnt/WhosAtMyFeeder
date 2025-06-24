@@ -13,6 +13,7 @@ from queries import (
     get_records_for_scientific_name_and_date,
     get_earliest_detection_date,
     trending_species,
+    daily_counts,
 )
 
 app = Flask(__name__)
@@ -140,6 +141,12 @@ def api_trending():
     days = int(request.args.get('days', 7))
     limit = int(request.args.get('limit', 5))
     return jsonify(trending_species(days, limit))
+
+
+@app.route('/api/daily_counts')
+def api_daily_counts():
+    days = int(request.args.get('days', 7))
+    return jsonify(daily_counts(days))
 
 
 @app.route('/dashboard')

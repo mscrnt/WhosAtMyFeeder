@@ -9,14 +9,36 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script type="text/babel">
     function App() {
       const [trending, setTrending] = React.useState([]);
+      const [counts, setCounts] = React.useState([]);
       React.useEffect(() => {
         fetch('/api/trending')
           .then(res => res.json())
           .then(data => setTrending(data));
+        fetch('/api/daily_counts')
+          .then(res => res.json())
+          .then(data => setCounts(data));
       }, []);
+      React.useEffect(() => {
+        if (counts.length === 0) return;
+        const ctx = document.getElementById('countChart');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: counts.map(d => d.date),
+            datasets: [{
+              label: 'Detections',
+              data: counts.map(d => d.count),
+              fill: false,
+              borderColor: '#0d6efd',
+            }]
+          },
+          options: {scales: {y: {beginAtZero: true}}}
+        });
+      }, [counts]);
       return (
         <div>
           <h2><i class="fa-solid fa-chart-line"></i> Trending Species</h2>
@@ -33,6 +55,8 @@
               ))}
             </tbody>
           </table>
+          <h2 className="mt-4"><i class="fa-solid fa-calendar-day"></i> Daily Detections</h2>
+          <canvas id="countChart" height="100"></canvas>
         </div>
       );
     }
