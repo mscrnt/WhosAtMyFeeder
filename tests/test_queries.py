@@ -61,3 +61,11 @@ def test_recent_detections(tmp_path, monkeypatch):
     det = res[0]
     assert det["display_name"] == "passer domesticus"
     assert det["common_name"] == "House Sparrow"
+
+
+def test_daily_counts(tmp_path, monkeypatch):
+    data_db = tmp_path / "detections.db"
+    setup_detections_db(data_db)
+    monkeypatch.setattr(queries, "DBPATH", str(data_db))
+    counts = queries.daily_counts(5000)
+    assert counts == [{"date": "2024-01-01", "count": 1}]

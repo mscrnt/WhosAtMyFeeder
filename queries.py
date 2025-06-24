@@ -158,3 +158,58 @@ def get_earliest_detection_date():
         return earliest_date
     else:
         return None
+
+
+def trending_species(days=7, limit=5):
+    """Return the most frequently detected species in the last ``days`` days."""
+    conn = sqlite3.connect(DBPATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    query = """
+        SELECT display_name, COUNT(*) AS detections
+        FROM detections
+        WHERE detection_time >= datetime('now', ?)
+        GROUP BY display_name
+        ORDER BY detections DESC
+        LIMIT ?
+    """
+
+    cursor.execute(query, (f'-{int(days)} days', limit))
+    rows = cursor.fetchall()
+
+    results = []
+    for row in rows:
+        results.append({
+            'scientific_name': row['display_name'],
+            'common_name': get_common_name(row['display_name']),
+            'count': row['detections'],
+        })
+
+    conn.close()
+    return results
+
+
+def daily_counts(days=7):
+    """Return detection counts for each of the last ``days`` days."""
+    conn = sqlite3.connect(DBPATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    query = """
+        SELECT DATE(detection_time) AS day, COUNT(*) AS detections
+        FROM detections
+        WHERE detection_time >= datetime('now', ?)
+        GROUP BY day
+        ORDER BY day ASC
+    """
+
+    cursor.execute(query, (f'-{int(days)} days',))
+    rows = cursor.fetchall()
+
+    results = []
+    for row in rows:
+        results.append({'date': row['day'], 'count': row['detections']})
+
+    conn.close()
+    return results

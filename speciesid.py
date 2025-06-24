@@ -94,8 +94,9 @@ def on_message(client, userdata, message):
         # Extract the 'after' element data and store it in a dictionary
         after_data = payload_dict.get('after', {})
 
+        target_objs = config['frigate'].get('objects') or [config['frigate'].get('object', 'bird')]
         if (after_data['camera'] in config['frigate']['camera'] and
-                after_data['label'] == 'bird'):
+                after_data['label'] in target_objs):
 
             frigate_event = after_data['id']
             frigate_url = config['frigate']['frigate_url']

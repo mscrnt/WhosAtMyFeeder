@@ -7,7 +7,8 @@ frigate:
   main_topic: frigate
   camera:
     - birdcam
-  object: bird
+  objects:
+    - bird
 classification:
   model: model.tflite
   threshold: 0.7
