@@ -15,6 +15,9 @@ Actually I'm populating it with the first 20 characters of the bird species comm
 field is currently limited to 20 characters
 * I also changed (improved, I hope) the UI significantly. I don't think there's any lost functionality.
 * The Web UI now uses Bootstrap 5.3 with modern fonts for a sleeker look.
+* A lightweight React dashboard is available at `/dashboard` showing trending species.
+* New JSON API endpoints provide recent detections, daily summaries and trending data.
+* The `config.yml` now uses an `objects:` list so multiple animals can be tracked.
 
 ![screenshot](screenshot2.jpg)
 

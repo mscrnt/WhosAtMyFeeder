@@ -1,12 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, abort, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_file, abort, send_from_directory, jsonify
 import sqlite3
 import base64
 from datetime import datetime, date
 import yaml
 import requests
 from io import BytesIO
-from queries import recent_detections, get_daily_summary, get_common_name, get_records_for_date_hour
-from queries import get_records_for_scientific_name_and_date, get_earliest_detection_date
+from queries import (
+    recent_detections,
+    get_daily_summary,
+    get_common_name,
+    get_records_for_date_hour,
+    get_records_for_scientific_name_and_date,
+    get_earliest_detection_date,
+    trending_species,
+)
 
 app = Flask(__name__)
 config = None
@@ -112,6 +119,32 @@ def show_daily_summary(date):
     earliest_date = get_earliest_detection_date()
     return render_template('daily_summary.html', daily_summary=daily_summary, date=date, today=today,
                            earliest_date=earliest_date)
+
+
+# --- API Endpoints ---
+
+@app.route('/api/recent')
+def api_recent():
+    limit = int(request.args.get('limit', 5))
+    return jsonify(recent_detections(limit))
+
+
+@app.route('/api/daily_summary/<date>')
+def api_daily_summary(date):
+    date_dt = datetime.strptime(date, "%Y-%m-%d")
+    return jsonify(get_daily_summary(date_dt))
+
+
+@app.route('/api/trending')
+def api_trending():
+    days = int(request.args.get('days', 7))
+    limit = int(request.args.get('limit', 5))
+    return jsonify(trending_species(days, limit))
+
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('react_dashboard.html')
 
 
 def load_config():

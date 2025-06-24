@@ -41,6 +41,7 @@ def test_setupdb_creates_table(tmp_path, monkeypatch):
     flask_mod.send_file = lambda *a, **k: None
     flask_mod.abort = lambda *a, **k: None
     flask_mod.send_from_directory = lambda *a, **k: None
+    flask_mod.jsonify = lambda *a, **k: {}
     sys.modules.setdefault('flask', flask_mod)
     yaml_mod = types.ModuleType('yaml')
     yaml_mod.safe_load = lambda f: {}
